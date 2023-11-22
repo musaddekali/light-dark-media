@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card</title>
+    <style>
+      /* BASIC SETUP  */
+      :root {
+        --primary: #3939d3;
+        --white: #fff;
+        --bg: #ffffff;
+        --fg: #1b1b1b;
+        --border: #e6e7ec;
+      }
+
+      .dark {
+        --bg: #02021b;
+        --fg: #fff;
+        --border: #5b5b5b;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-size: 1rem;
+        font-weight: 400;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        line-height: 1.5;
+        background-color: var(--bg);
+        color: var(--fg);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      ul,
+      ol {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      button {
+        cursor: pointer;
+        border: 1px solid transparent;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      /* CUSTOM CLASS  */
+      .app {
+        min-height: 100vh;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      .items_center {
+        align-items: center;
+      }
+
+      .justify_center {
+        justify-content: center;
+      }
+
+      .justify_between {
+        justify-content: space-between;
+      }
+
+      .flex_col {
+        flex-direction: column;
+      }
+
+      .gap_1 {
+        gap: 0.25rem;
+      }
+
+      .gap_2 {
+        gap: 0.5rem;
+      }
+
+      .gap_3 {
+        gap: 0.75rem;
+      }
+
+      .gap_4 {
+        gap: 1rem;
+      }
+
+      .w_full {
+        width: 100%;
+      }
+
+      .h_full {
+        height: 100%;
+      }
+
+      .text_base {
+        font-size: 1rem;
+      }
+
+      .text_xs {
+        font-size: 0.75rem;
+      }
+
+      .text_sm {
+        font-size: 0.875rem;
+      }
+
+      .text_lg {
+        font-size: 1.125rem;
+        line-height: 1.3;
+      }
+
+      .text_xl {
+        font-size: 1.25rem;
+        line-height: 1.3;
+      }
+
+      .border {
+        border: 1px solid var(--border);
+      }
+
+      .text_primary {
+        color: var(--primary);
+      }
+
+      .hover\:text_primary:hover {
+        color: var(--primary);
+      }
+
+      .container {
+        max-width: 1400px;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .mb_20 {
+        margin-bottom: 20px;
+      }
+
+      /* ======= NAVBAR ======= */
+      .header {
+        background: var(--bg);
+        color: var(--fg);
+        position: sticky;
+        top: 0;
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .navbar_nav {
+        padding: 1.5rem 0;
+      }
+
+      @media (max-width: 767px) {
+        .navbar_links {
+          flex-direction: column;
+        }
+
+        .navbar_collaps {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          background: var(--bg);
+          padding: 1rem;
+          border-radius: 1rem;
+          position: fixed;
+          left: 1rem;
+          right: 1rem;
+          top: 80px;
+          width: calc(100% - 2rem);
+          min-height: 75vh;
+          max-height: 90vh;
+          overflow: auto;
+          z-index: 100;
+          box-shadow: 0 4px 16px rgb(0 0 0/16%);
+          transition: 0.3s;
+          opacity: 0;
+          visibility: hidden;
+        }
+
+        .mobile_nav_active .navbar_collaps {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      .dark_night_toggler {
+        border: 1px solid var(--border);
+        background-color: var(--primary);
+        color: var(--white);
+        font-size: 0.875rem;
+        line-height: 1;
+        padding: 8px 16px;
+        border-radius: 4px;
+      }
+
+      .navbar_toggler {
+        width: 40px;
+        height: 40px;
+        font-size: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        border-radius: 9999px;
+        overflow: hidden;
+        background-color: #ece8e8;
+      }
+
+      .navbar_toggler:hover {
+        background-color: #f3f3f3;
+      }
+
+      .navbar_toggler:active {
+        background-color: #e2e2e2;
+      }
+
+      @media (min-width: 778px) {
+        .navbar_toggler {
+          display: none;
+        }
+      }
+
+      /* ======= FEED CARD ======= */
+      .feed_card {
+        width: 100%;
+        max-width: 600px;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+      }
+
+      @media (max-width: 767px) {
+        .feed_card {
+          padding: 0.75rem;
+        }
+      }
+
+      .feed_card_header {
+        margin-bottom: 20px;
+      }
+
+      .feed_card_img_sm {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .feed_card_images {
+        margin-top: 20px;
+        border-radius: 4px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+      }
+
+      .feed_card_rm_btn {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1;
+        background-color: transparent;
+        color: var(--fg);
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app flex flex_col">
+      <header class="header mb_20">
+        <nav>
+          <div class="container">
+            <div class="navbar_nav flex items_center justify_between">
+              <a href="#" class="brand_logo">
+                <h3>MARoom</h3>
+              </a>
+              <div class="navbar_collaps">
+                <ul class="navbar_links flex items_center gap_4">
+                  <li><a class="hover:text_primary" href="#">Feed</a></li>
+                  <li><a class="hover:text_primary" href="#">Friends</a></li>
+                  <li><a class="hover:text_primary" href="#">Message</a></li>
+                  <li><a class="hover:text_primary" href="#">Groups</a></li>
+                  <li><a class="hover:text_primary" href="#">Settings</a></li>
+                  <li>
+                    <button class="dark_night_toggler">Dark Theme</button>
+                  </li>
+                </ul>
+              </div>
+              <button class="navbar_toggler">
+                <span style="display: inline-flex">
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    stroke-width="0"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    height="1em"
+                    width="1em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm8.25 5.25a.75.75 0 01.75-.75h8.25a.75.75 0 010 1.5H12a.75.75 0 01-.75-.75z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <div class="container">
+            <div class="flex flex_col items_center gap_4">
+              <article class="feed_card border">
+                <header class="feed_card_header">
+                  <div class="flex gap_4">
+                    <a href="#">
+                      <img
+                        src="./flower.jpg"
+                        alt=""
+                        class="feed_card_img_sm border"
+                      />
+                    </a>
+                    <div>
+                      <a href="#">
+                        <h4 aria-label="User name" class="text_base">
+                          Musaddek Ali
+                        </h4>
+                      </a>
+                      <span class="text_xs">25 June 2023</span>
+                    </div>
+                  </div>
+                </header>
+                <main class="feed_card_body">
+                  <p class="feed_card_content">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Numquam, itaque? Debitis hic animi dolore distinctio neque
+                    quod eaque doloremque dolorem...
+                    <button class="feed_card_rm_btn">Read more</button>
+                  </p>
+                  <div class="feed_card_images">
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                  </div>
+                </main>
+              </article>
+              <article class="feed_card border">
+                <header class="feed_card_header">
+                  <div class="flex gap_4">
+                    <a href="#">
+                      <img
+                        src="./flower.jpg"
+                        alt=""
+                        class="feed_card_img_sm border"
+                      />
+                    </a>
+                    <div>
+                      <a href="#">
+                        <h4 aria-label="User name" class="text_base">
+                          Musaddek Ali
+                        </h4>
+                      </a>
+                      <span class="text_xs">25 June 2023</span>
+                    </div>
+                  </div>
+                </header>
+                <main class="feed_card_body">
+                  <p class="feed_card_content">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Numquam, itaque? Debitis hic animi dolore distinctio neque
+                    quod eaque doloremque dolorem...
+                    <button class="feed_card_rm_btn">Read more</button>
+                  </p>
+                  <div class="feed_card_images">
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                  </div>
+                </main>
+              </article>
+              <article class="feed_card border">
+                <header class="feed_card_header">
+                  <div class="flex gap_4">
+                    <a href="#">
+                      <img
+                        src="./flower.jpg"
+                        alt=""
+                        class="feed_card_img_sm border"
+                      />
+                    </a>
+                    <div>
+                      <a href="#">
+                        <h4 aria-label="User name" class="text_base">
+                          Musaddek Ali
+                        </h4>
+                      </a>
+                      <span class="text_xs">25 June 2023</span>
+                    </div>
+                  </div>
+                </header>
+                <main class="feed_card_body">
+                  <p class="feed_card_content">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Numquam, itaque? Debitis hic animi dolore distinctio neque
+                    quod eaque doloremque dolorem...
+                    <button class="feed_card_rm_btn">Read more</button>
+                  </p>
+                  <div class="feed_card_images">
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                    <img src="./flower.jpg" alt="feed_showcase" />
+                  </div>
+                </main>
+              </article>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const darkNightToggleBtn = document.querySelector(".dark_night_toggler");
+      const navbarToggleBtn = document.querySelector(".navbar_toggler");
+      // Light/Dark mode
+      darkNightToggleBtn.addEventListener("click", function () {
+        if (document.body.classList.contains("dark")) {
+          document.body.classList.remove("dark");
+          this.innerHTML = "Dark Theme";
+        } else {
+          document.body.classList.add("dark");
+          this.innerHTML = "Light Theme";
+        }
+      });
+
+      // Mobile navbar
+      navbarToggleBtn.addEventListener("click", function () {
+        if (document.body.classList.contains("mobile_nav_active")) {
+          document.body.classList.remove("mobile_nav_active");
+        } else {
+          document.body.classList.add("mobile_nav_active");
+        }
+      });
+    </script>
+  </body>
+</html>
